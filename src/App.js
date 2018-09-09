@@ -12,11 +12,20 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      enemies
-    };
+      enemies: enemies,
+      userInput: ''
+    }
+  }
+  addEnemy = (enemyToAdd) => {
+    this.setState({
+      enemies: this.state.enemies.concat(enemyToAdd),
+      userInput: ''
+    });
   }
   removeEnemy = (enemyToRemove) => {
-    this.setState({ enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)});
+    this.setState({
+      enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)
+    });
   }
   render() {
     return (
@@ -25,10 +34,14 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        <div className="add-enemy-form">
+          <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
+          <button onClick={() => this.setState({ enemies: this.state.enemies.concat(this.state.userInput)})}>add enemy</button>
+        </div>
         <p className="enemies-list">
           {this.state.enemies.map(enemy => (
             <div key={enemy}>
-              <input onClick={() => this.removeEnemy(enemy)} type="checkbox" />
+              <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
               <label>{enemy}</label>
             </div>
           ))}
