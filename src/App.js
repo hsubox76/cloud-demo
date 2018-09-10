@@ -4,24 +4,18 @@ import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-const enemies = [
-  'cat',
-  'dog',
-  'baby'
-  ];
-
 class App extends Component {
   constructor() {
     super();
     
     // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
-      authDomain: "test1-d075b.firebaseapp.com",
-      databaseURL: "https://test1-d075b.firebaseio.com",
-      projectId: "test1-d075b",
-      storageBucket: "test1-d075b.appspot.com",
-      messagingSenderId: "766394707590"
+      // apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
+      // authDomain: "test1-d075b.firebaseapp.com",
+      // databaseURL: "https://test1-d075b.firebaseio.com",
+      // projectId: "test1-d075b",
+      // storageBucket: "test1-d075b.appspot.com",
+      // messagingSenderId: "766394707590"
     };
     
     firebase.initializeApp(config);
@@ -39,9 +33,16 @@ class App extends Component {
       userInput: ''
     }
   }
+  componentDidMount = () => {
+    this.db.collection("enemies")
+      .onSnapshot((querySnapshot) => {
+        this.setState({
+          enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
+        });
+      });
+  }
   addEnemy = (enemyToAdd) => {
     this.setState({
-      // enemies: this.state.enemies.concat(enemyToAdd),
       userInput: ''
     });
     
