@@ -36,16 +36,16 @@ class App extends Component {
         </header>
         <div className="add-enemy-form">
           <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-          <button onClick={() => this.setState({ enemies: this.state.enemies.concat(this.state.userInput)})}>add enemy</button>
+          <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
         </div>
-        <p className="enemies-list">
+        <div className="enemies-list">
           {this.state.enemies.map(enemy => (
             <div key={enemy}>
               <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
               <label>{enemy}</label>
             </div>
           ))}
-        </p>
+        </div>
       </div>
     );
   }
