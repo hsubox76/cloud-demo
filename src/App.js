@@ -16,12 +16,15 @@ class App extends Component {
     
     // Initialize Firebase
     var config = {
-      apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
-      authDomain: "test1-d075b.firebaseapp.com",
-      databaseURL: "https://test1-d075b.firebaseio.com",
-      projectId: "test1-d075b",
-      storageBucket: "test1-d075b.appspot.com",
-      messagingSenderId: "766394707590"
+      // ***********************************
+      // *********** REPLACE ***************
+      // ***********************************
+      // apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
+      // authDomain: "test1-d075b.firebaseapp.com",
+      // databaseURL: "https://test1-d075b.firebaseio.com",
+      // projectId: "test1-d075b",
+      // storageBucket: "test1-d075b.appspot.com",
+      // messagingSenderId: "766394707590"
     };
     
     firebase.initializeApp(config);
