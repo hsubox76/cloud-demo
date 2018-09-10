@@ -6,6 +6,7 @@
     "firebase": "^5.4.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
+    "react-firebaseui": "^3.0.7",
     "react-scripts": "1.1.5"
   },
   "scripts": {

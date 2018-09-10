@@ -3,6 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+
+// Configure FirebaseUI.
+const uiConfig = {
+  // Popup signin flow rather than redirect flow.
+  signInFlow: 'popup',
+  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
+  signInSuccessUrl: '/signedIn',
+  // We will display Google and Facebook as auth providers.
+  signInOptions: [
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ]
+};
 
 class App extends Component {
   constructor() {
@@ -29,6 +42,7 @@ class App extends Component {
     });
     
     this.state = {
+      user: null,
       enemies: [],
       userInput: ''
     }
@@ -40,6 +54,9 @@ class App extends Component {
           enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
         });
       });
+    firebase.auth().onAuthStateChanged(
+      (user) => this.setState({ user })
+    );
   }
   addEnemy = (enemyToAdd) => {
     this.setState({
@@ -64,13 +81,15 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          {!this.state.user && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>}
+          {this.state.user && <a onClick={() => firebase.auth().signOut()}>Sign-out</a>}
         </header>
-        <div className="add-enemy-form">
-          <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-          <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
-        </div>
+        {this.state.user && this.state.user.uid === 'LH2kvfTu3LXMSecOhIp9YmHAoez1' && (
+          <div className="add-enemy-form">
+            <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
+            <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
+          </div>
+        )}
         <div className="enemies-list">
           {this.state.enemies.map(enemy => (
             <div key={enemy}>
