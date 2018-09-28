@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// List of enemies - hardcoded
 const enemies = [
   'cat',
   'dog',
@@ -12,9 +13,10 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      enemies
+      enemies // init from const above
     };
   }
+  // remove from list
   removeEnemy = (enemyToRemove) => {
     this.setState({ enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)});
   }
@@ -26,8 +28,10 @@ class App extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="enemies-list">
+          {/* checklist */}
           {this.state.enemies.map(enemy => (
             <div key={enemy}>
+              {/* remove on click */}
               <input onClick={() => this.removeEnemy(enemy)} type="checkbox" />
               <label>{enemy}</label>
             </div>
