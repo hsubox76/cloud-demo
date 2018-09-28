@@ -9,13 +9,15 @@ class App extends Component {
     super();
     
     // Initialize Firebase
-    var config = {
-      // apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
-      // authDomain: "test1-d075b.firebaseapp.com",
-      // databaseURL: "https://test1-d075b.firebaseio.com",
-      // projectId: "test1-d075b",
-      // storageBucket: "test1-d075b.appspot.com",
-      // messagingSenderId: "766394707590"
+    const projectId = process.env.REACT_APP_DEMO_PROJECT_ID;
+    
+    // Pull secrets from env so it doesn't get saved in your repo
+    const config = {
+      apiKey: process.env.REACT_APP_DEMO_API_KEY,
+      authDomain: projectId + ".firebaseapp.com",
+      databaseURL: "https://" + projectId + ".firebaseio.com",
+      projectId: projectId,
+      storageBucket: projectId + ".appspot.com"
     };
     
     firebase.initializeApp(config);
@@ -29,12 +31,15 @@ class App extends Component {
     });
     
     this.state = {
-      enemies: [],
+      enemies: [], // still inits empty
       userInput: ''
     }
   }
   componentDidMount = () => {
+    // Read enemies/ collection from firebase.
     this.db.collection("enemies")
+      // "onSnapshot" sets a listener that will be called when collection
+      // changes
       .onSnapshot((querySnapshot) => {
         this.setState({
           enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
@@ -56,6 +61,7 @@ class App extends Component {
       });
   }
   removeEnemy = (enemyToRemove) => {
+    // Removal does NOT write to backend - client side only
     this.setState({
       enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)
     });
