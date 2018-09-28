@@ -4,27 +4,26 @@ import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-const enemies = [
-  'cat',
-  'dog',
-  'baby'
-  ];
+// const enemies = [
+//   'cat',
+//   'dog',
+//   'baby'
+//   ];
 
 class App extends Component {
   constructor() {
     super();
-    
+
     // Initialize Firebase
-    var config = {
-      // ***********************************
-      // *********** REPLACE ***************
-      // ***********************************
-      // apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
-      // authDomain: "test1-d075b.firebaseapp.com",
-      // databaseURL: "https://test1-d075b.firebaseio.com",
-      // projectId: "test1-d075b",
-      // storageBucket: "test1-d075b.appspot.com",
-      // messagingSenderId: "766394707590"
+    const projectId = process.env.REACT_APP_DEMO_PROJECT_ID;
+    
+    // Pull secrets from env so it doesn't get saved in your repo
+    const config = {
+      apiKey: process.env.REACT_APP_DEMO_API_KEY,
+      authDomain: projectId + ".firebaseapp.com",
+      databaseURL: "https://" + projectId + ".firebaseio.com",
+      projectId: projectId,
+      storageBucket: projectId + ".appspot.com"
     };
     
     firebase.initializeApp(config);
@@ -38,19 +37,26 @@ class App extends Component {
     });
     
     this.state = {
-      enemies: [],
+      enemies: [], // init blank
       userInput: ''
     }
   }
   addEnemy = (enemyToAdd) => {
     this.setState({
+      // Don't add directly to state anymore.
       // enemies: this.state.enemies.concat(enemyToAdd),
       userInput: ''
     });
     
+    // Instead add straight into firebase.
     this.db.collection("enemies")
       .add({ name: enemyToAdd })
       .then(function(docRef) {
+          // This is handy if you want to get the ID of created doc
+          // and write it somewhere else.
+          // Example: when a user submits a new post, save post itself to
+          // posts/ and then add an entry to a list of post IDs in the
+          // user's profile in /users
           console.log("Document written with ID: ", docRef.id);
       })
       .catch(function(error) {
