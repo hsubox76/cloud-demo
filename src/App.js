@@ -12,14 +12,15 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      enemies: enemies,
-      userInput: ''
+      enemies,
+      userInput: '' // controlled input
     }
   }
+  // add a new enemy
   addEnemy = (enemyToAdd) => {
     this.setState({
-      enemies: this.state.enemies.concat(enemyToAdd),
-      userInput: ''
+      enemies: this.state.enemies.concat(enemyToAdd), // add to state
+      userInput: '' // clear input field
     });
   }
   removeEnemy = (enemyToRemove) => {
@@ -34,8 +35,11 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+        {/* Form for adding a new enemy */}
         <div className="add-enemy-form">
+          {/* The controlled input */}
           <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
+          {/* Add on click */}
           <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
         </div>
         <div className="enemies-list">
