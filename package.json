@@ -14,11 +14,5 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "now": {
-    "env": {
-      "DEMO_API_KEY": "@demo-api-key",
-      "DEMO_PROJECT_ID": "@demo-project-id"
-    }
   }
 }
