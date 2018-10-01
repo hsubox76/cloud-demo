@@ -17,8 +17,8 @@
   },
   "now": {
     "env": {
-      "DEMO_API_KEY": "@demo-api-key",
-      "DEMO_PROJECT_ID": "@demo-project-id"
+      "DEMO_API_KEY": "@demo_api_key",
+      "DEMO_PROJECT_ID": "@demo_project_id"
     }
   }
 }
