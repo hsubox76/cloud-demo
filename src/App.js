@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
@@ -72,8 +71,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
+          this is where the header was
         </header>
         <div className="add-enemy-form">
           <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
