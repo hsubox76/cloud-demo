@@ -71,7 +71,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          this is where the header was
+          writing to db, but not reading
         </header>
         <div className="add-enemy-form">
           <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
