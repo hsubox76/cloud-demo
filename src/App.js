@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          this is where the header was
+          input but no persistence
         </header>
         {/* Form for adding a new enemy */}
         <div className="add-enemy-form">
