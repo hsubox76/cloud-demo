@@ -69,7 +69,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          what exciting things might go here
+          reading from db, no auth roles
         </header>
         <div className="add-enemy-form">
           <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
