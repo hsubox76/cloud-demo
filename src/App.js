@@ -1,39 +1,25 @@
 import React, { Component } from 'react';
+import logo from './logo.svg';
 import './App.css';
 
-// List of enemies - hardcoded
-const enemies = [
-  'cat',
-  'dog',
-  'baby'
-  ];
-
 class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      enemies // init from const above
-    };
-  }
-  // remove from list
-  removeEnemy = (enemyToRemove) => {
-    this.setState({ enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)});
-  }
   render() {
     return (
       <div className="App">
         <header className="App-header">
+          <img src={logo} className="App-logo" alt="logo" />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
         </header>
-        <p className="enemies-list">
-          {/* checklist */}
-          {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              {/* remove on click */}
-              <input onClick={() => this.removeEnemy(enemy)} type="checkbox" />
-              <label>{enemy}</label>
-            </div>
-          ))}
-        </p>
       </div>
     );
   }
