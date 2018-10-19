@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
 import './App.css';
 
-const enemies = [
-  'cat',
-  'dog',
-  'baby'
-  ];
-
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      enemies,
-      userInput: '' // controlled input
-    }
+      enemies: ['cat', 'dog', 'baby'],
+    };
+    // ************* STEP 1 ****************
+    // Ref to the input element.
+    // ************* STEP 1 ****************
+    this.inputRef = React.createRef();
   }
-  // add a new enemy
-  addEnemy = (enemyToAdd) => {
+    
+  // ************* STEP 1 ****************
+  // Handler to add an enemy item.
+  // ************* STEP 1 ****************
+  addEnemy = (e, enemyToAdd) => {
+    // ************* STEP 1 ****************
+    // Take whatever's typed into the input
+    // and concat to state.enemies.
+    // Then clear the input.
+    // ************* STEP 1 ****************
     this.setState({
-      enemies: this.state.enemies.concat(enemyToAdd), // add to state
-      userInput: '' // clear input field
+      enemies: this.state.enemies.concat(this.inputRef.current.value),
     });
+    this.inputRef.current.value = '';
   }
   removeEnemy = (enemyToRemove) => {
     this.setState({
@@ -33,19 +38,22 @@ class App extends Component {
         <header className="App-header">
           input but no persistence
         </header>
-        {/* Form for adding a new enemy */}
+        {/*************** STEP 1 ****************
+            Form for adding the enemy.
+            INPUT: pointed to by this.inputRef
+            BUTTON: calls this.addEnemy on click
+          *************** STEP 1 ****************/}
         <div className="add-enemy-form">
-          {/* The controlled input */}
-          <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-          {/* Add on click */}
-          <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
+          <input ref={this.inputRef} />
+          <button onClick={this.addEnemy}>
+            add enemy
+          </button>
         </div>
         <div className="enemies-list">
           {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
-              <label>{enemy}</label>
-            </div>
+            <button onClick={() => this.removeEnemy(enemy)} key={enemy}>
+              {enemy}
+            </button>
           ))}
         </div>
       </div>
