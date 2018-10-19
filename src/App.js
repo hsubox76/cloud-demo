@@ -7,21 +7,21 @@ class App extends Component {
     this.state = {
       enemies: ['cat', 'dog', 'baby'],
     };
-    // ************* STEP 1 ****************
+    // ************* STEP 2 ****************
     // Ref to the input element.
-    // ************* STEP 1 ****************
+    // ************* STEP 2 ****************
     this.inputRef = React.createRef();
   }
     
-  // ************* STEP 1 ****************
+  // ************* STEP 2 ****************
   // Handler to add an enemy item.
-  // ************* STEP 1 ****************
+  // ************* STEP 2 ****************
   addEnemy = (e, enemyToAdd) => {
-    // ************* STEP 1 ****************
+    // ************* STEP 2 ****************
     // Take whatever's typed into the input
     // and concat to state.enemies.
     // Then clear the input.
-    // ************* STEP 1 ****************
+    // ************* STEP 2 ****************
     this.setState({
       enemies: this.state.enemies.concat(this.inputRef.current.value),
     });
@@ -38,11 +38,11 @@ class App extends Component {
         <header className="App-header">
           input but no persistence
         </header>
-        {/*************** STEP 1 ****************
+        {/*************** STEP 2 ****************
             Form for adding the enemy.
             INPUT: pointed to by this.inputRef
             BUTTON: calls this.addEnemy on click
-          *************** STEP 1 ****************/}
+          *************** STEP 2 ****************/}
         <div className="add-enemy-form">
           <input ref={this.inputRef} />
           <button onClick={this.addEnemy}>
