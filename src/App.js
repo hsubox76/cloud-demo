@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import config from './config';
+import { config } from './config';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
 // Configure FirebaseUI.
