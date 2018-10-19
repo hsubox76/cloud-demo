@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import { config } from './config';
 
 // const enemies = [
 //   'cat',
@@ -14,13 +13,15 @@ class App extends Component {
   constructor() {
     super();
     
+    const config = {};
+    
     firebase.initializeApp(config);
     
     // Initialize Cloud Firestore through Firebase
-    this.db = firebase.firestore();
+    this.firestore = firebase.firestore();
     
     // Disable deprecated features
-    this.db.settings({
+    this.firestore.settings({
       timestampsInSnapshots: true
     });
     
@@ -37,19 +38,8 @@ class App extends Component {
     });
     
     // Instead add straight into firebase.
-    this.db.collection("enemies")
-      .add({ name: enemyToAdd })
-      .then(function(docRef) {
-          // This is handy if you want to get the ID of created doc
-          // and write it somewhere else.
-          // Example: when a user submits a new post, save post itself to
-          // posts/ and then add an entry to a list of post IDs in the
-          // user's profile in /users
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
+    this.firestore.collection("enemies")
+      .add({ name: enemyToAdd });
   }
   removeEnemy = (enemyToRemove) => {
     this.setState({
