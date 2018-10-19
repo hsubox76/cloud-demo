@@ -2,22 +2,11 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
+import config from './config';
 
 class App extends Component {
   constructor() {
     super();
-    
-    // Initialize Firebase
-    const projectId = process.env.REACT_APP_DEMO_PROJECT_ID;
-    
-    // Pull secrets from env so it doesn't get saved in your repo
-    const config = {
-      apiKey: process.env.REACT_APP_DEMO_API_KEY,
-      authDomain: projectId + ".firebaseapp.com",
-      databaseURL: "https://" + projectId + ".firebaseio.com",
-      projectId: projectId,
-      storageBucket: projectId + ".appspot.com"
-    };
     
     firebase.initializeApp(config);
     
