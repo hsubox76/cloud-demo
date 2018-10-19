@@ -1,40 +1,43 @@
 import React, { Component } from 'react';
 import './App.css';
 
-// List of enemies - hardcoded
-const enemies = [
-  'cat',
-  'dog',
-  'baby'
-  ];
-
 class App extends Component {
   constructor() {
     super();
+    
+    // ************* STEP 1 ****************
+    // Start with a hardcoded list.
+    // ************* STEP 1 ****************
     this.state = {
-      enemies // init from const above
+      enemies: ['cat', 'dog', 'baby'],
     };
   }
-  // remove from list
+    
+  // ************* STEP 1 ****************
+  // Handler to remove an item.
+  // ************* STEP 1 ****************
   removeEnemy = (enemyToRemove) => {
     this.setState({ enemies: this.state.enemies.filter(enemy => enemy !== enemyToRemove)});
   }
   render() {
     return (
       <div className="App">
+        {/*************** STEP 1 ****************
+            Shrank the header.
+          *************** STEP 1 ****************/}
         <header className="App-header">
           this is where the header was
         </header>
-        <p className="enemies-list">
-          {/* checklist */}
+        {/*************** STEP 1 ****************
+            List of enemy buttons removable on click.
+          *************** STEP 1 ****************/}
+        <div className="enemies-list">
           {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              {/* remove on click */}
-              <input onClick={() => this.removeEnemy(enemy)} type="checkbox" />
-              <label>{enemy}</label>
-            </div>
+            <button onClick={() => this.removeEnemy(enemy)} key={enemy}>
+              {enemy}
+            </button>
           ))}
-        </p>
+        </div>
       </div>
     );
   }
