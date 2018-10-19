@@ -9,7 +9,8 @@
     "react-scripts": "1.1.5"
   },
   "scripts": {
-    "start": "REACT_APP_DEMO_API_KEY=$DEMO_API_KEY REACT_APP_DEMO_PROJECT_ID=$DEMO_PROJECT_ID react-scripts start",  "build": "react-scripts build",
+    "start": "REACT_APP_DEMO_API_KEY=$DEMO_API_KEY REACT_APP_DEMO_PROJECT_ID=$DEMO_PROJECT_ID react-scripts start",
+    "build": "REACT_APP_DEMO_API_KEY=$DEMO_API_KEY REACT_APP_DEMO_PROJECT_ID=$DEMO_PROJECT_ID react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }
