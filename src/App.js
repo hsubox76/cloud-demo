@@ -3,16 +3,13 @@ import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-// const enemies = [
-//   'cat',
-//   'dog',
-//   'baby'
-//   ];
-
 class App extends Component {
   constructor() {
     super();
     
+    // ************* STEP 3 ****************
+    // Insert Firebase config here!
+    // ************* STEP 3 ****************
     const config = {};
     
     firebase.initializeApp(config);
@@ -20,24 +17,22 @@ class App extends Component {
     // Initialize Cloud Firestore through Firebase
     this.firestore = firebase.firestore();
     
-    // Disable deprecated features
-    this.firestore.settings({
-      timestampsInSnapshots: true
-    });
-    
     this.state = {
-      enemies: [], // init blank
-      userInput: ''
+      // enemies: ['cat', 'dog', 'baby'],
+      enemies: []
     }
   }
   addEnemy = (enemyToAdd) => {
-    this.setState({
-      // Don't add directly to state anymore.
-      // enemies: this.state.enemies.concat(enemyToAdd),
-      userInput: ''
-    });
+    // ************* STEP 3 ****************
+    // Don't add directly to state anymore.
+    // ************* STEP 3 ****************
+    // this.setState({
+      // enemies: this.state.enemies.concat(enemyToAdd)
+    // });
     
+    // ************* STEP 3 ****************
     // Instead add straight into firebase.
+    // ************* STEP 3 ****************
     this.firestore.collection("enemies")
       .add({ name: enemyToAdd });
   }
@@ -53,14 +48,21 @@ class App extends Component {
           writing to db, but not reading
         </header>
         <div className="add-enemy-form">
-          <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-          <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
+          <input
+            value={this.state.userInput}
+            onChange={(e) => this.setState({ userInput: e.target.value })}
+          />
+          <button onClick={() => this.addEnemy(this.state.userInput)}>
+            add enemy
+          </button>
         </div>
         <div className="enemies-list">
           {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
-              <label>{enemy}</label>
+            <div
+              key={enemy}
+              onClick={() => this.removeEnemy(enemy)}
+            >
+              {enemy}
             </div>
           ))}
         </div>
