@@ -22,7 +22,12 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.add-enemy-form {
+  margin-bottom: 5px;
+}
+
+.enemies-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
