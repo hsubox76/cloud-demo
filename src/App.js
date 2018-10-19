@@ -16,7 +16,7 @@ class App extends Component {
   // ************* STEP 2 ****************
   // Handler to add an enemy item.
   // ************* STEP 2 ****************
-  addEnemy = (e, enemyToAdd) => {
+  addEnemy = () => {
     // ************* STEP 2 ****************
     // Take whatever's typed into the input
     // and concat to state.enemies.
