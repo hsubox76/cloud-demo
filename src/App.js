@@ -2,66 +2,51 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
-import config from './config';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-// Configure FirebaseUI.
-const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/signedIn',
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ]
-};
 
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      enemies: [],
+      // ************* STEP 5 ****************
+      // A place to store user state.
+      // ************* STEP 5 ****************
+      user: null
+    };
+    this.inputRef = React.createRef();
+    
+  var config = {
+    apiKey: "AIzaSyDzUMsNcfLJkn6iGuOXEaDfG_gshXSy41o",
+    authDomain: "durian-pizza.firebaseapp.com",
+    databaseURL: "https://durian-pizza.firebaseio.com",
+    projectId: "durian-pizza",
+    storageBucket: "durian-pizza.appspot.com",
+    messagingSenderId: "720445715595"
+  };
     
     firebase.initializeApp(config);
-    
-    // Initialize Cloud Firestore through Firebase
-    this.db = firebase.firestore();
-    
-    // Disable deprecated features
-    this.db.settings({
-      timestampsInSnapshots: true
-    });
-    
-    this.state = {
-      user: null, // user state
-      enemies: [],
-      userInput: ''
-    }
+    this.firestore = firebase.firestore();
   }
   componentDidMount = () => {
-    this.db.collection("enemies")
+    this.firestore.collection("enemies")
       .onSnapshot((querySnapshot) => {
         this.setState({
           enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
         });
       });
-    // Event listener on login/logout
+    // ************* STEP 5 ****************
+    // Set an event listener on login/logout
+    // ************* STEP 5 ****************
     firebase.auth().onAuthStateChanged(
       (user) => this.setState({ user })
     );
   }
   addEnemy = (enemyToAdd) => {
-    this.setState({
-      userInput: ''
-    });
-    
-    this.db.collection("enemies")
-      .add({ name: enemyToAdd })
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
+    this.firestore.collection("enemies")
+      .add({ name: this.inputRef.current.value })
+      .then(() => this.inputRef.current.value = '');
   }
   removeEnemy = (enemyToRemove) => {
     this.setState({
@@ -69,25 +54,52 @@ class App extends Component {
     });
   }
   render() {
+    // ************* STEP 5 ****************
+    // Config options for Firebase login UI
+    // ************* STEP 5 ****************
+    const uiConfig = {
+      signInFlow: 'popup',
+      signInSuccessUrl: '/signedIn',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
+    };
     return (
       <div className="App">
         <header className="App-header">
-          {!this.state.user && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>}
-          {this.state.user && <a onClick={() => firebase.auth().signOut()}>Sign-out</a>}
+          {/*************** STEP 5 ****************
+              Login area.
+              If no user, show login button.
+              If user, show "Logout" link.
+            *************** STEP 5 ****************/}
+          {!this.state.user &&
+            // Login component - plug in config.
+            <StyledFirebaseAuth
+              uiConfig={uiConfig}
+              firebaseAuth={firebase.auth()}
+            />}
+          {this.state.user &&
+            <a onClick={() => firebase.auth().signOut()}>
+              Logout
+            </a>}
         </header>
-        {/* Show input form to admin only. */}
+        {/*************** STEP 5 ****************
+          Input form only visible to admin user.
+          *************** STEP 5 ****************/}
         {this.state.user && this.state.user.uid === 'XXXXX' && (
           <div className="add-enemy-form">
-            <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-            <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
+            <input ref={this.inputRef} />
+            <button onClick={this.addEnemy}>
+              add enemy
+            </button>
           </div>
         )}
         <div className="enemies-list">
           {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
-              <label>{enemy}</label>
-            </div>
+            <button onClick={() => this.removeEnemy(enemy)} key={enemy}>
+              {enemy}
+            </button>
           ))}
         </div>
       </div>
