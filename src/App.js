@@ -17,14 +17,7 @@ class App extends Component {
     };
     this.inputRef = React.createRef();
     
-  var config = {
-    apiKey: "AIzaSyDzUMsNcfLJkn6iGuOXEaDfG_gshXSy41o",
-    authDomain: "durian-pizza.firebaseapp.com",
-    databaseURL: "https://durian-pizza.firebaseio.com",
-    projectId: "durian-pizza",
-    storageBucket: "durian-pizza.appspot.com",
-    messagingSenderId: "720445715595"
-  };
+    const config = {};
     
     firebase.initializeApp(config);
     this.firestore = firebase.firestore();
