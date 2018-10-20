@@ -6,13 +6,19 @@
     "firebase": "^5.4.2",
     "react": "^16.5.0",
     "react-dom": "^16.5.0",
-    "react-firebaseui": "^3.0.7",
+    "react-firebaseui": "^3.1.2",
     "react-scripts": "1.1.5"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_DEMO_API_KEY=$DEMO_API_KEY REACT_APP_DEMO_PROJECT_ID=$DEMO_PROJECT_ID react-scripts start",
+    "build": "REACT_APP_DEMO_API_KEY=$DEMO_API_KEY REACT_APP_DEMO_PROJECT_ID=$DEMO_PROJECT_ID react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "now": {
+    "env": {
+      "DEMO_API_KEY": "@demo_api_key",
+      "DEMO_PROJECT_ID": "@demo_project_id"
+    }
   }
 }

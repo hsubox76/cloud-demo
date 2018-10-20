@@ -1,54 +1,36 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import firebase from 'firebase';
 import 'firebase/firestore';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 
-// Configure FirebaseUI.
-const uiConfig = {
-  // Popup signin flow rather than redirect flow.
-  signInFlow: 'popup',
-  // Redirect to /signedIn after sign in is successful. Alternatively you can provide a callbacks.signInSuccess function.
-  signInSuccessUrl: '/signedIn',
-  // We will display Google and Facebook as auth providers.
-  signInOptions: [
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID
-  ]
-};
 
 class App extends Component {
   constructor() {
     super();
+    this.state = {
+      enemies: [],
+      user: null
+    };
+    this.inputRef = React.createRef();
     
-    // Initialize Firebase
-    var config = {
-      apiKey: "AIzaSyBsyFvxigPX-W5XebG99dZ0_J0UR7--x2w",
-      authDomain: "test1-d075b.firebaseapp.com",
-      databaseURL: "https://test1-d075b.firebaseio.com",
-      projectId: "test1-d075b",
-      storageBucket: "test1-d075b.appspot.com",
-      messagingSenderId: "766394707590"
+    // ************* STEP 6 ****************
+    // Pull secrets from env so it doesn't get saved in your repo
+    // ************* STEP 6 ****************
+    const projectId = process.env.REACT_APP_DEMO_PROJECT_ID;
+    const config = {
+      apiKey: process.env.REACT_APP_DEMO_API_KEY,
+      authDomain: projectId + ".firebaseapp.com",
+      databaseURL: "https://" + projectId + ".firebaseio.com",
+      projectId: projectId,
+      storageBucket: projectId + ".appspot.com"
     };
     
     firebase.initializeApp(config);
-    
-    // Initialize Cloud Firestore through Firebase
-    this.db = firebase.firestore();
-    
-    // Disable deprecated features
-    this.db.settings({
-      timestampsInSnapshots: true
-    });
-    
-    this.state = {
-      user: null,
-      enemies: [],
-      userInput: ''
-    }
+    this.firestore = firebase.firestore();
   }
   componentDidMount = () => {
-    this.db.collection("enemies")
+    this.firestore.collection("enemies")
       .onSnapshot((querySnapshot) => {
         this.setState({
           enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
@@ -59,18 +41,9 @@ class App extends Component {
     );
   }
   addEnemy = (enemyToAdd) => {
-    this.setState({
-      userInput: ''
-    });
-    
-    this.db.collection("enemies")
-      .add({ name: enemyToAdd })
-      .then(function(docRef) {
-          console.log("Document written with ID: ", docRef.id);
-      })
-      .catch(function(error) {
-          console.error("Error adding document: ", error);
-      });
+    this.firestore.collection("enemies")
+      .add({ name: this.inputRef.current.value })
+      .then(() => this.inputRef.current.value = '');
   }
   removeEnemy = (enemyToRemove) => {
     this.setState({
@@ -78,24 +51,40 @@ class App extends Component {
     });
   }
   render() {
+    const uiConfig = {
+      signInFlow: 'popup',
+      signInSuccessUrl: '/signedIn',
+      signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID
+      ]
+    };
     return (
       <div className="App">
         <header className="App-header">
-          {!this.state.user && <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>}
-          {this.state.user && <a onClick={() => firebase.auth().signOut()}>Sign-out</a>}
+          {!this.state.user &&
+            <StyledFirebaseAuth
+              uiConfig={uiConfig}
+              firebaseAuth={firebase.auth()}
+            />}
+          {this.state.user &&
+            <a onClick={() => firebase.auth().signOut()}>
+              Logout
+            </a>}
         </header>
-        {this.state.user && this.state.user.uid === 'LH2kvfTu3LXMSecOhIp9YmHAoez1' && (
+        {this.state.user && this.state.user.uid === 'XXXXX' && (
           <div className="add-enemy-form">
-            <input value={this.state.userInput} onChange={(e) => this.setState({ userInput: e.target.value })} />
-            <button onClick={() => this.addEnemy(this.state.userInput)}>add enemy</button>
+            <input ref={this.inputRef} />
+            <button onClick={this.addEnemy}>
+              add enemy
+            </button>
           </div>
         )}
         <div className="enemies-list">
           {this.state.enemies.map(enemy => (
-            <div key={enemy}>
-              <input type="checkbox" onClick={() => this.removeEnemy(enemy)} />
-              <label>{enemy}</label>
-            </div>
+            <button onClick={() => this.removeEnemy(enemy)} key={enemy}>
+              {enemy}
+            </button>
           ))}
         </div>
       </div>

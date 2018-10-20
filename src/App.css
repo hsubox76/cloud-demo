@@ -9,9 +9,22 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
-  padding: 20px;
+  height: 40px;
   color: white;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+
+.App-header .firebaseui-page-provider-sign-in {
+  margin-top: -30px;
+}
+
+.App-header .firebaseui-idp-list>.firebaseui-list-item {
+  margin-bottom: 5px;
+}
+
+.App-header .firebaseui-idp-button {
+  min-height: 25px;
 }
 
 .App-title {
@@ -22,7 +35,12 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.add-enemy-form {
+  margin-bottom: 5px;
+}
+
+.enemies-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
