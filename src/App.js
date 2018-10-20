@@ -10,21 +10,21 @@ class App extends Component {
     super();
     this.state = {
       enemies: [],
-      // ************* STEP 5 ****************
-      // A place to store user state.
-      // ************* STEP 5 ****************
       user: null
     };
     this.inputRef = React.createRef();
     
-  var config = {
-    apiKey: "AIzaSyDzUMsNcfLJkn6iGuOXEaDfG_gshXSy41o",
-    authDomain: "durian-pizza.firebaseapp.com",
-    databaseURL: "https://durian-pizza.firebaseio.com",
-    projectId: "durian-pizza",
-    storageBucket: "durian-pizza.appspot.com",
-    messagingSenderId: "720445715595"
-  };
+    // ************* STEP 6 ****************
+    // Pull secrets from env so it doesn't get saved in your repo
+    // ************* STEP 6 ****************
+    const projectId = process.env.REACT_APP_DEMO_PROJECT_ID;
+    const config = {
+      apiKey: process.env.REACT_APP_DEMO_API_KEY,
+      authDomain: projectId + ".firebaseapp.com",
+      databaseURL: "https://" + projectId + ".firebaseio.com",
+      projectId: projectId,
+      storageBucket: projectId + ".appspot.com"
+    };
     
     firebase.initializeApp(config);
     this.firestore = firebase.firestore();
@@ -36,9 +36,6 @@ class App extends Component {
           enemies: querySnapshot.docs.map(enemySnapshot => enemySnapshot.data().name)
         });
       });
-    // ************* STEP 5 ****************
-    // Set an event listener on login/logout
-    // ************* STEP 5 ****************
     firebase.auth().onAuthStateChanged(
       (user) => this.setState({ user })
     );
@@ -54,9 +51,6 @@ class App extends Component {
     });
   }
   render() {
-    // ************* STEP 5 ****************
-    // Config options for Firebase login UI
-    // ************* STEP 5 ****************
     const uiConfig = {
       signInFlow: 'popup',
       signInSuccessUrl: '/signedIn',
@@ -68,13 +62,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          {/*************** STEP 5 ****************
-              Login area.
-              If no user, show login button.
-              If user, show "Logout" link.
-            *************** STEP 5 ****************/}
           {!this.state.user &&
-            // Login component - plug in config.
             <StyledFirebaseAuth
               uiConfig={uiConfig}
               firebaseAuth={firebase.auth()}
@@ -84,9 +72,6 @@ class App extends Component {
               Logout
             </a>}
         </header>
-        {/*************** STEP 5 ****************
-          Input form only visible to admin user.
-          *************** STEP 5 ****************/}
         {this.state.user && this.state.user.uid === 'XXXXX' && (
           <div className="add-enemy-form">
             <input ref={this.inputRef} />
