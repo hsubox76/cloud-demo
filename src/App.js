@@ -81,6 +81,7 @@ class App extends Component {
           </div>
         )}
         <div className="enemies-list">
+          <div>Enemies List</div>
           {this.state.enemies.map(enemy => (
             <button onClick={() => this.removeEnemy(enemy)} key={enemy}>
               {enemy}
