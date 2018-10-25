@@ -72,7 +72,7 @@ class App extends Component {
               Logout
             </a>}
         </header>
-        {this.state.user && this.state.user.uid === '4BVtwlEiI4RvzKpAed5658GdatF3' && (
+        {this.state.user && this.state.user.uid === 'DlNd3axtDrSeBFMYTlldVcwBw7l1' && (
           <div className="add-enemy-form">
             <input ref={this.inputRef} />
             <button onClick={this.addEnemy}>
